@@ -9,10 +9,10 @@
         opts = { },
 
         defaultOptions = {
-            fadeWhen: 'atElement',
+            fadeWhen: 'atScrollPosition',
             fadeConfig: {
-                startFadingAt: null,
-                finishFadingBy: null
+                startFadingAt: 50,
+                finishFadingBy: 300
             },
             siteBoundaries: null,
             horizontalPosition: 'right',
