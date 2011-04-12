@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <style type="text/css">
+            body {
+                width: 100%;
+            }
+            #siteBody {
+                width: 600px;
+                height: 400px;
+                margin: 0 auto;
+            }
+            #header {
+                width: 100%;
+                height: 150px;
+                background: blue;
+            }
+            #content {
+                width: 100%;
+                height: 800px;
+                background: aqua;
+            }
+            #footer {
+                width: 100%;
+                height: 150px;
+                background: fuchsia;
+                margin-bottom: 15px;
+            }
+            #scrollForMore {
+                background:red;
+                width: 100px;
+                height: 20px;
+                padding: 5px;
+            }
+        </style>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+        <script type="text/javascript" src="../src/jquery.scrollForMore.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#scrollForMore').scrollForMore({
+                    startFadingAt: '#footer',
+                    siteBoundaries: '#siteBody',
+                    horizontalPosition: 'right',
+                    horizontalOffset: 50
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="siteBody">
+            <div id="header">
+
+            </div>
+            <div id="content">
+
+            </div>
+            <div id="footer">
+
+            </div>
+        </div>
+
+        <div id="scrollForMore">Scroll For More</div>
+    </body>
+</html>
