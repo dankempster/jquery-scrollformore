@@ -180,16 +180,21 @@
                 opacityValue = (fadeArea-diff)/fadeArea
             ;
 
+            onComplete = null;
             if(opacityValue<0) {
                 opacityValue = 0;
+                if(opts.hideWhenFaddedOut==true) {
+                    onComplete = function() { $target.css('display', 'none'); };
+                }
             }
 
             if(opts.fadeConfig.animate==true) {
+                $target.css('display', 'block');
                 $target.stop(true).fadeTo(
                     opts.fadeConfig.duration,
-                    opacityValue
+                    opacityValue,
+                    onComplete
                 );
-                $target.css('display', 'block');
             }
             else {
                 $target.css({
