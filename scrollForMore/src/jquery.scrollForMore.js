@@ -57,6 +57,10 @@
                         init_fadeAtElement();
                         break;
                     }
+                    case 'atScrollPosition': {
+                        init_fadeAtScrollPosition();
+                        break;
+                    }
                 }
 
                 // Assign the scroll event... once
@@ -108,6 +112,11 @@
                         fade_atElement();
                         break;
                     }
+
+                    case 'atScrollPosition': {
+                        fade_atScrollPosition();
+                        break;
+                    }
                 }
             }
         }
@@ -151,6 +160,39 @@
         var scrollPos = $(window).scrollTop() + $(window).height(),
             startFadingAt = elements.startFadingAt.offset().top,
             finishFadingBy = elements.finishFadingBy.offset().top + elements.finishFadingBy.height();
+
+        if(scrollPos<startFadingAt && $target.css('opacity')<1) {
+            $target.css('opacity', 1);
+        }
+        else if(scrollPos>=startFadingAt) {
+            var fadeArea = finishFadingBy - startFadingAt,
+                diff = scrollPos - startFadingAt,
+                opacityValue = (fadeArea-diff)/fadeArea
+            ;
+
+            $target.css('opacity', opacityValue);
+        }
+    }
+
+    function init_fadeAtScrollPosition()
+    {
+        if(!opts.fadeConfig.startFadingAt) {
+            alert('scrollForMore: Missing option fadeConfig.startFadingAt');
+        }
+        if(!opts.fadeConfig.finishFadingBy) {
+            alert('scrollForMore: Missing option fadeConfig.finishFadingBy');
+        }
+    }
+
+    function fade_atScrollPosition()
+    {
+        console.log('scrolling');
+        var scrollPos = $(window).scrollTop(),
+            startFadingAt = opts.fadeConfig.startFadingAt,
+            finishFadingBy = opts.fadeConfig.finishFadingBy
+        ;
+
+        console.log(scrollPos, startFadingAt, finishFadingBy);
 
         if(scrollPos<startFadingAt && $target.css('opacity')<1) {
             $target.css('opacity', 1);
