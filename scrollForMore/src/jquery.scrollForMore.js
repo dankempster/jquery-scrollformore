@@ -12,7 +12,9 @@
             fadeWhen: 'atScrollPosition',
             fadeConfig: {
                 startFadingAt: 100,
-                finishFadingBy: 400
+                finishFadingBy: 400,
+                animate: true,
+                duration: 1000
             },
             siteBoundaries: null,
             horizontalPosition: 'right',
@@ -151,10 +153,19 @@
     function performFade(scrollPos, startFadingAt, finishFadingBy)
     {
         if(scrollPos<startFadingAt && $target.css('opacity')<1) {
-            $target.css({
-                opacity: 1,
-                display: 'block',
-            });
+            if(opts.fadeConfig.animate==true) {
+                $target.stop(true).fadeTo(
+                    opts.fadeConfig.duration,
+                    1
+                );
+                $target.css('display', 'block');
+            }
+            else {
+                $target.css({
+                    opacity: 1,
+                    display: 'block',
+                });
+            }
         }
         else if(scrollPos>=startFadingAt) {
             var fadeArea = finishFadingBy - startFadingAt,
@@ -163,10 +174,20 @@
             ;
 
             if(opacityValue>0) {
-                $target.css({
-                    opacity: opacityValue,
-                    display: 'block'
-                });
+                console.log(opacityValue);
+                if(opts.fadeConfig.animate==true) {
+                    $target.stop(true).fadeTo(
+                        opts.fadeConfig.duration,
+                        opacityValue
+                    );
+                    $target.css('display', 'block');
+                }
+                else {
+                    $target.css({
+                        opacity: opacityValue,
+                        display: 'block'
+                    });
+                }
             }
             else {
                 $target.css({
