@@ -41,7 +41,7 @@
                 }
 
                 if(!opts.finishFadingBy) {
-                    opts.finishFadingBy = $startFadingAt;
+                    opts.finishFadingBy = opts.startFadingAt;
                 }
                 else {
                     opts.finishFadingBy = $(opts.finishFadingBy);
