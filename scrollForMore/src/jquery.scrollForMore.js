@@ -174,7 +174,6 @@
             ;
 
             if(opacityValue>0) {
-                console.log(opacityValue);
                 if(opts.fadeConfig.animate==true) {
                     $target.stop(true).fadeTo(
                         opts.fadeConfig.duration,
