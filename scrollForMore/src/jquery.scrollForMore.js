@@ -17,7 +17,8 @@
             siteBoundaries: null,
             horizontalPosition: 'right',
             horizontalOffset: 0,
-            onClickScroll: 100
+            onClickScroll: 100,
+            hideWhenFaddedOut: true
         },
 
         elements = {
@@ -147,6 +148,31 @@
         return version;
     };
 
+    function performFade(scrollPos, startFadingAt, finishFadingBy)
+    {
+        if(scrollPos<startFadingAt && $target.css('opacity')<1) {
+            $target.css('opacity', 1);
+        }
+        else if(scrollPos>=startFadingAt) {
+            var fadeArea = finishFadingBy - startFadingAt,
+                diff = scrollPos - startFadingAt,
+                opacityValue = (fadeArea-diff)/fadeArea
+            ;
+
+            if(opacityValue>0) {
+                $target.css({
+                    opacity: opacityValue,
+                    display: 'block'
+                });
+            }
+            else {
+                $target.css({
+                    display: 'none'
+                });
+            }
+        }
+    }
+
     function init_fadeAtElement()
     {
         if(!opts.fadeConfig.startFadingAt) {
@@ -168,17 +194,7 @@
             startFadingAt = elements.startFadingAt.offset().top,
             finishFadingBy = elements.finishFadingBy.offset().top + elements.finishFadingBy.height();
 
-        if(scrollPos<startFadingAt && $target.css('opacity')<1) {
-            $target.css('opacity', 1);
-        }
-        else if(scrollPos>=startFadingAt) {
-            var fadeArea = finishFadingBy - startFadingAt,
-                diff = scrollPos - startFadingAt,
-                opacityValue = (fadeArea-diff)/fadeArea
-            ;
-
-            $target.css('opacity', opacityValue);
-        }
+        performFade(scrollPos, startFadingAt, finishFadingBy);
     }
 
     function init_fadeAtScrollPosition()
@@ -199,18 +215,6 @@
             finishFadingBy = opts.fadeConfig.finishFadingBy
         ;
 
-        console.log(scrollPos, startFadingAt, finishFadingBy);
-
-        if(scrollPos<startFadingAt && $target.css('opacity')<1) {
-            $target.css('opacity', 1);
-        }
-        else if(scrollPos>=startFadingAt) {
-            var fadeArea = finishFadingBy - startFadingAt,
-                diff = scrollPos - startFadingAt,
-                opacityValue = (fadeArea-diff)/fadeArea
-            ;
-
-            $target.css('opacity', opacityValue);
-        }
+        performFade(scrollPos, startFadingAt, finishFadingBy);
     }
 })(jQuery);
