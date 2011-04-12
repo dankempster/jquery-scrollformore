@@ -69,7 +69,14 @@
 
                 if(opts.onClickScroll>0) {
                     $target.bind('click', function() {
-                        $(window).scrollTop($(window).scrollTop()+opts.onClickScroll);
+                        // If scrollto plugin is available we'll use it
+                        if($.scrollTo) {
+                            console.log('using scrollto');
+                            $.scrollTo($(window).scrollTop()+opts.onClickScroll, 500, {easing: 'swing'});
+                        }
+                        else {
+                            $(window).scrollTop($(window).scrollTop()+opts.onClickScroll);
+                        }
                     });
                 }
 
