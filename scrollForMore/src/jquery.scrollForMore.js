@@ -11,8 +11,8 @@
         defaultOptions = {
             fadeWhen: 'atScrollPosition',
             fadeConfig: {
-                startFadingAt: 50,
-                finishFadingBy: 300
+                startFadingAt: 100,
+                finishFadingBy: 400
             },
             siteBoundaries: null,
             horizontalPosition: 'right',
@@ -151,7 +151,10 @@
     function performFade(scrollPos, startFadingAt, finishFadingBy)
     {
         if(scrollPos<startFadingAt && $target.css('opacity')<1) {
-            $target.css('opacity', 1);
+            $target.css({
+                opacity: 1,
+                display: 'block',
+            });
         }
         else if(scrollPos>=startFadingAt) {
             var fadeArea = finishFadingBy - startFadingAt,
