@@ -2,6 +2,7 @@
     <head>
         <style type="text/css">
             body {
+                margin: 0;
                 width: 100%;
             }
             #siteBody {
@@ -16,7 +17,7 @@
             }
             #content {
                 width: 100%;
-                height: 800px;
+                height: 1600px;
                 background: aqua;
             }
             #footer {
@@ -34,6 +35,7 @@
             }
         </style>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+        <script type="text/javascript" src="jquery.scrollto-1.4.2.js"></script>
         <script type="text/javascript" src="../src/jquery.scrollForMore.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
@@ -41,7 +43,9 @@
                     fadeWhen: 'atScrollPosition',
                     fadeConfig: {
                         startFadingAt: 20,
-                        finishFadingBy: 300
+                        finishFadingBy: 300,
+                        animate: true,
+                        duration: 1000
                     },
 
                     siteBoundaries: '#siteBody',
