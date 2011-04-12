@@ -209,7 +209,6 @@
 
     function fade_atScrollPosition()
     {
-        console.log('scrolling');
         var scrollPos = $(window).scrollTop(),
             startFadingAt = opts.fadeConfig.startFadingAt,
             finishFadingBy = opts.fadeConfig.finishFadingBy
