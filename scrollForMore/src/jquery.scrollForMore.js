@@ -8,8 +8,19 @@
 
         opts = { },
 
+        defaultOptions = {
+            fadeWhen: 'atElement',
+            fadeConfig: {
+                startFadingAt: null,
+                finishFadingBy: null
+            },
+            siteBoundaries: null,
+            horizontalPosition: 'right',
+            horizontalOffset: 0
+        },
+
         elements = {
-            siteBoundries: null,
+            siteBoundaries: null,
             startFadeAt: null,
             endFadeAt: null
         }
@@ -22,36 +33,31 @@
                     return;
                 }
 
-                $target = $(this);
+                // Plugin Options
+                opts = $.extend(defaultOptions, options);
 
-                opts = options;
+                // Target Elements
+                $target = $(this).css({
+                    position: 'fixed',
+                    bottom: '0px'
+                });
 
-                if(!opts.startFadingAt) {
-                    alert("Can't init scrollForMore, missing 'startFadingAt' option");
-                    return
-                }
-                opts.startFadingAt = $(opts.startFadingAt);
-
+                // Site Boundaries
                 if(!opts.siteBoundaries) {
                     alert("Can't init scrollForMore, missing 'siteBoundires' option");
                 }
-                opts.siteBoundaries = $(opts.siteBoundaries);
+                elements.siteBoundaries = $(opts.siteBoundaries);
                 if(!opts.horizontalOffset) {
                     opts.horizontalOffset = 0;
                 }
 
-                if(!opts.finishFadingBy) {
-                    opts.finishFadingBy = opts.startFadingAt;
+                // Inialise the plugin based on it's mode
+                switch(opts.fadeWhen) {
+                    case 'atElement': {
+                        init_fadeAtElement();
+                        break;
+                    }
                 }
-                else {
-                    opts.finishFadingBy = $(opts.finishFadingBy);
-                }
-
-                // Set Css
-                $target.css({
-                    position: 'fixed',
-                    bottom: '0px'
-                });
 
                 // Assign the scroll event... once
                 if(!eventsAssigned) {
@@ -68,7 +74,7 @@
             {
                 switch(opts.horizontalPosition) {
                     case 'left': {
-                        var offset = opts.siteBoundaries.offset( ).left
+                        var offset = elements.siteBoundaries.offset( ).left
                             + opts.horizontalOffset,
                             viewPointBoundary = 0;
                         ;
@@ -80,8 +86,8 @@
                         break;
                     }
                     default: {
-                        var offset = opts.siteBoundaries.offset( ).left
-                            + opts.siteBoundaries.width( )
+                        var offset = elements.siteBoundaries.offset( ).left
+                            + elements.siteBoundaries.width( )
                             - $target.outerWidth( )
                             - opts.horizontalOffset,
                             viewPointBoundary = $(window).width( ) - $target.outerWidth( );
@@ -97,20 +103,11 @@
 
             scroll: function()
             {
-                var scrollPos = $(window).scrollTop() + $(window).height(),
-                    startFadingAt = opts.startFadingAt.offset().top;
-                    finishFadingBy = opts.finishFadingBy.offset().top + opts.finishFadingBy.height();
-
-                if(scrollPos<startFadingAt && $target.css('opacity')<1) {
-                    $target.css('opacity', 1);
-                }
-                else if(scrollPos>=startFadingAt) {
-                    var fadeArea = finishFadingBy - startFadingAt,
-                        diff = scrollPos - startFadingAt,
-                        opacityValue = (fadeArea-diff)/fadeArea
-                    ;
-
-                    $target.css('opacity', opacityValue);
+                switch(opts.fadeWhen) {
+                    case 'atElement': {
+                        fade_atElement();
+                        break;
+                    }
                 }
             }
         }
@@ -133,4 +130,38 @@
     {
         return version;
     };
+
+    function init_fadeAtElement()
+    {
+        if(!opts.fadeConfig.startFadingAt) {
+            alert("Can't init scrollForMore, missing 'fadeConfig.startFadingAt' option");
+            return
+        }
+        elements.startFadingAt = $(opts.fadeConfig.startFadingAt);
+        if(!opts.fadeConfig.finishFadingBy) {
+            elements.finishFadingBy = elements.startFadingAt;
+        }
+        else {
+            elements.finishFadingBy = $(opts.fadeConfig.finishFadingBy);
+        }
+    }
+
+    function fade_atElement()
+    {
+        var scrollPos = $(window).scrollTop() + $(window).height(),
+            startFadingAt = elements.startFadingAt.offset().top,
+            finishFadingBy = elements.finishFadingBy.offset().top + elements.finishFadingBy.height();
+
+        if(scrollPos<startFadingAt && $target.css('opacity')<1) {
+            $target.css('opacity', 1);
+        }
+        else if(scrollPos>=startFadingAt) {
+            var fadeArea = finishFadingBy - startFadingAt,
+                diff = scrollPos - startFadingAt,
+                opacityValue = (fadeArea-diff)/fadeArea
+            ;
+
+            $target.css('opacity', opacityValue);
+        }
+    }
 })(jQuery);

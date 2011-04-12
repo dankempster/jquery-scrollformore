@@ -37,8 +37,13 @@
         <script type="text/javascript">
             $(document).ready(function(){
                 $('#scrollForMore').scrollForMore({
-                    startFadingAt: '#footer',
+                    fadeWhen: 'atElement',
+                    fadeConfig: {
+                        startFadingAt: '#footer'
+                    },
+                    
                     siteBoundaries: '#siteBody',
+
                     horizontalPosition: 'right',
                     horizontalOffset: 50
                 });
