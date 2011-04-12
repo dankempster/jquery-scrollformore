@@ -16,7 +16,8 @@
             },
             siteBoundaries: null,
             horizontalPosition: 'right',
-            horizontalOffset: 0
+            horizontalOffset: 0,
+            onClickScroll: 100
         },
 
         elements = {
@@ -61,6 +62,12 @@
                         init_fadeAtScrollPosition();
                         break;
                     }
+                }
+
+                if(opts.onClickScroll>0) {
+                    $target.bind('click', function() {
+                        $(window).scrollTop($(window).scrollTop()+opts.onClickScroll);
+                    });
                 }
 
                 // Assign the scroll event... once
