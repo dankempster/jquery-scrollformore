@@ -19,7 +19,7 @@
             siteBoundaries: null,
             horizontalPosition: 'right',
             horizontalOffset: 0,
-            onClickScroll: 100,
+            onClickScroll: 200,
             hideWhenFaddedOut: true
         },
 
@@ -173,24 +173,21 @@
                 opacityValue = (fadeArea-diff)/fadeArea
             ;
 
-            if(opacityValue>0) {
-                if(opts.fadeConfig.animate==true) {
-                    $target.stop(true).fadeTo(
-                        opts.fadeConfig.duration,
-                        opacityValue
-                    );
-                    $target.css('display', 'block');
-                }
-                else {
-                    $target.css({
-                        opacity: opacityValue,
-                        display: 'block'
-                    });
-                }
+            if(opacityValue<0) {
+                opacityValue = 0;
+            }
+
+            if(opts.fadeConfig.animate==true) {
+                $target.stop(true).fadeTo(
+                    opts.fadeConfig.duration,
+                    opacityValue
+                );
+                $target.css('display', 'block');
             }
             else {
                 $target.css({
-                    display: 'none'
+                    opacity: opacityValue,
+                    display: 'block'
                 });
             }
         }
